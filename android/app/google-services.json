@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "218988446038",
+    "project_id": "qird5-dbb90",
+    "storage_bucket": "qird5-dbb90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218988446038:android:c1c5d5f39fb34ee21616f7",
+        "android_client_info": {
+          "package_name": "com.qird5"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTp94bhYz1npnMZQwttQvKzNOHNXkfLOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
