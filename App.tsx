@@ -8,6 +8,7 @@ import User from './src/screens/User';
 import Login from './src/screens/Login';
 import Recuperar from './src/screens/Recuperar';
 import { NavigationContainer } from '@react-navigation/native';
+import Register from './src/screens/Register';
 
 
 const Tab = createBottomTabNavigator();
@@ -30,6 +31,7 @@ function Mavigation(){
     <Stack.Navigator>
       <Stack.Screen name='Login' component={Login} options={{headerShown:false}}/>
       <Stack.Screen name='Recuperar' component={Recuperar} options={{headerShown:false}}/>
+      <Stack.Screen name='Register' component={Register} options={{headerShown: false}}/>
       <Stack.Screen name='MyTabs' component={MyTabs} options={{headerShown:false}}/>
     </Stack.Navigator>
   )
