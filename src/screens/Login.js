@@ -1,22 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, View, TextInput, TouchableOpacity, Alert, ImageBackground, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { Text, StyleSheet, View, TextInput, TouchableOpacity, Alert, ImageBackground } from 'react-native';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore'
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
-import { useNavigation } from '@react-navigation/native';
-
-const {width: screenWidth} = Dimensions.get('screen')
-const {height: screenHeight} = Dimensions.get('screen')
 
 
 export default function Login(props) {
+
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const logueo = async () => {
+    try {
+      const userCredential = await auth().signInWithEmailAndPassword(email, password);
+      const uid = userCredential.user.uid;
+      const userDoc = await firestore().collection('Users').doc(uid).get();
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        const userRole = userData.role;
+        if (userRole === 'admin') {
+          props.navigation.navigate('MyAdminTabs', { screen: 'AdminHome' });
+        } else {
+          props.navigation.navigate('MyTabs', { screen: 'Home' });
+        }
+      } else {
+        Alert.alert('Error', 'No se encontró el usuario en la base de datos.');
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Error', 'Algo salió mal durante el inicio de sesión.');
+    }
+  };
+
   return (
     <ImageBackground source={require('../assets/fondo_login.jpg')} style={styles.imagen}>
       <View style={styles.padre}>
         <Text style={styles.title}>Bienvenido</Text>
 
         <View style={styles.tarjeta}>
-          <CustomInput placeholder='Usuario o Email'/>
-          <CustomInput placeholder='Contraseña' secureTextEntry={true}/>
+          <View style={styles.cajatexto}>
+            <CustomInput placeholder='Correo electronico' onChangeText={(text)=> setEmail(text)}/>
+          </View>
+          <View style={styles.cajatexto}>
+            <CustomInput placeholder='Contraseña' onChangeText={(text)=>setPassword(text)} secureTextEntry={true}/>
+          </View>
 
           <View>
             <TouchableOpacity onPress={() => props.navigation.navigate('Recuperar')}>
@@ -26,14 +54,12 @@ export default function Login(props) {
               </Text>
             </TouchableOpacity>
           </View>
-          <CustomButton botoncual='Ingresar' onPress={()=> props.navigation.navigate('MyTabs',{screen: 'Home'})}/>
-          <View>
-          <TouchableOpacity style={styles.gulugulu}>
-            <Text style={styles.gulugulutext}>Ingresar con Google</Text>
-          </TouchableOpacity>
+
+          <View style={styles.padreboton}>
+            <CustomButton botoncual='Ingresar' onPress={logueo}/>
+          </View>
         </View>
-        </View>
-      
+
         <View>
           <TouchableOpacity onPress={() => props.navigation.navigate('Register')}>
             <Text style={styles.registrarse}>
@@ -48,20 +74,6 @@ export default function Login(props) {
 }
 
 const styles = StyleSheet.create({
-  gulugulutext:{
-    color: '#fff',
-    fontSize: 20,
-    
-  },
-  gulugulu:{
-    borderColor: '#fff',
-    borderWidth: 0.5,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: screenWidth*0.68,
-    height: screenHeight*0.061
-  },
   padre: {
     flex: 1,
     backgroundColor: '#000000',
@@ -86,16 +98,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: '90%',
     padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center'
   },
   cajatexto: {
-    paddingVertical: 20,
-    backgroundColor: '#4D4D4D',
-    borderRadius: 15,
-    marginVertical: 10,
-    height: 52,
-    opacity: 0.5,
+    justifyContent:'center',
+    alignItems:'center'
   },
   recuperar: {
     marginTop: 20,
