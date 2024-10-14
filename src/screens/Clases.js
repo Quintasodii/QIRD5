@@ -16,15 +16,8 @@ const Clases = () => {
         <ScrollView>
             <ClasesAnotacion />
             <ClasesAnotacion />
-            <ClasesAnotacion />
-            <ClasesAnotacion />
-            <ClasesAnotacion />
-            <ClasesAnotacion />
-            <ClasesAnotacion />
-            <ClasesAnotacion />
-            <ClasesAnotacion />
-            <ClasesAnotacion />
         </ScrollView>
+        <View style={{height: screenHeight*0.1}}></View>
     </View>
   );
 };
