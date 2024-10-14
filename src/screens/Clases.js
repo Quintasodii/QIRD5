@@ -1,33 +1,59 @@
-import React, {useState} from 'react'
-import {Text, StyleSheet, View, Image, TouchableOpacity} from 'react-native'
+import React from 'react';
+import { ScrollView, Text, View, StyleSheet, Dimensions } from 'react-native';
+import firestore from '@react-native-firebase/firestore'
+import ClasesAnotacion from '../components/ClaseAsset';
 
+const {width : screenWidth} = Dimensions.get('screen')
+const {height : screenHeight} = Dimensions.get('screen')
 
-export default function Clases () {
-        return(
-            <View style={styles.padre} >
-                <View style={styles.container} >
-                    <Text style={styles.title} > Clases </Text>
-                </View>
-            </View>
-        );
-}
+const Clases = () => {
+  return (
+    <View style={styles.container}>
+        <View style={styles.titlecont}>
+            <Text style={styles.title}>Clases</Text>
+            <View style={styles.separador}/>
+        </View>
+        <ScrollView>
+            <ClasesAnotacion />
+            <ClasesAnotacion />
+            <ClasesAnotacion />
+            <ClasesAnotacion />
+            <ClasesAnotacion />
+            <ClasesAnotacion />
+            <ClasesAnotacion />
+            <ClasesAnotacion />
+            <ClasesAnotacion />
+            <ClasesAnotacion />
+        </ScrollView>
+    </View>
+  );
+};
 
-const styles = StyleSheet.create ({
-    padre:{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'top',
-        backgroundColor: '#0E0E0E'
+const styles = StyleSheet.create({
+    separador:{
+        alignSelf: 'center',
+        backgroundColor: '#fff',
+        width: screenWidth*0.9,
+        height: 4,
+        borderRadius: 14
     },
     container:{
+        height: screenHeight,
+        backgroundColor: '#0E0E0E',
+        width: screenWidth,
+        alignItems: 'center'
+    },
+    titlecont:{
         height: '15%',
         backgroundColor: '#0E0E0E',
         width: '100%',
-        marginTop: '20%'
+        marginTop: '10%'
     },
     title:{
         fontSize: 50,
         color: 'white',
         margin: '5%',
-    },
+    }
 });
+
+export default Clases;

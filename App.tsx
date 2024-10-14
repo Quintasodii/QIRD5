@@ -17,12 +17,24 @@ const Stack = createNativeStackNavigator();
 
 function MyTabs() {
   return(
-  <Tab.Navigator>
+  <Tab.Navigator screenOptions={{
+    tabBarActiveBackgroundColor: '#1f1f1f',
+    tabBarInactiveBackgroundColor : '#1e1e1e'    
+  }}>
     <Tab.Screen name='Home' component={Home} options={{headerShown:false}}/>
     <Tab.Screen name='Clases' component={Clases} options={{headerShown:false}}/>
     <Tab.Screen name='Notificaciones' component={Notif} options={{headerShown:false}}/>
     <Tab.Screen name='User' component={User} options={{headerShown:false}}/>
   </Tab.Navigator>    
+  )
+}
+
+function MyAdminTabs() {
+  return(
+    <Tab.Navigator>
+      <Tab.Screen name='Home' component={Home} options={{headerShown: false}}/>
+
+    </Tab.Navigator>
   )
 }
 
