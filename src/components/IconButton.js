@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Pressable, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Pressable, Text, TouchableOpacity, Image } from 'react-native';
 
-const IconButton = ({ name, size = 30, color = 'black', onPress, style }) => {
+
+const IconButton = ({ name, onPress, style }) => {
   return (
     <TouchableOpacity style={[styles.backIcon, style]} onPress={onPress}>
-      <Text>MAS MAS Y MAS</Text>
+      <Image source={name} style={styles.icon} />
     </TouchableOpacity>
   );
 };
@@ -13,6 +14,10 @@ const styles = StyleSheet.create({
   backIcon: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  icon:{
+    width: 40,
+    height: 40
   }
 });
 

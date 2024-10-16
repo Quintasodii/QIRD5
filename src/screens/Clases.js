@@ -1,12 +1,37 @@
-import React from 'react';
-import { ScrollView, Text, View, StyleSheet, Dimensions } from 'react-native';
-import firestore from '@react-native-firebase/firestore'
+import React, { useEffect, useState } from 'react';
+import { ScrollView, Text, View, StyleSheet, Dimensions, ActivityIndicator, Alert } from 'react-native';
+import firestore, { doc } from '@react-native-firebase/firestore'
 import ClasesAnotacion from '../components/ClaseAsset';
+import ClaseAsset from '../components/ClaseAsset';
 
 const {width : screenWidth} = Dimensions.get('screen')
 const {height : screenHeight} = Dimensions.get('screen')
 
 const Clases = () => {
+
+    const [documents, setDocuments] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(()=>{
+        const fetchDocuments = async () => {
+            try {
+                const querySnapshot = await firestore().collection('Clases').get();
+                const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setDocuments(docs);
+                setLoading(false);
+            }
+            catch (error){
+                Alert.alert('todo mal loco')
+                setLoading(false);
+            }
+        };
+        fetchDocuments();
+    },[]);
+    
+    if (loading) {
+        return <ActivityIndicator size='large' color='#009BDE'/>
+    }
+
   return (
     <View style={styles.container}>
         <View style={styles.titlecont}>
@@ -14,8 +39,11 @@ const Clases = () => {
             <View style={styles.separador}/>
         </View>
         <ScrollView>
-            <ClasesAnotacion />
-            <ClasesAnotacion />
+            {documents.map(doc => (
+                <ClaseAsset
+                key={doc.id}
+                timestamp={doc.FechaHora}/>
+            ))}
         </ScrollView>
         <View style={{height: screenHeight*0.1}}></View>
     </View>
