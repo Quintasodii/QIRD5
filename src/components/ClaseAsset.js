@@ -1,5 +1,5 @@
 import React from 'react'
-import { ActivityIndicator, Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {  Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import IconButton from './IconButton'
 import add_circle_black from '../assets/add_circle_black.png'
 import { format, subHours } from 'date-fns'
@@ -32,7 +32,6 @@ const ClaseAsset = ({timestamp, description}) => {
         </View>
         <View style={styles.parapra}>
             <IconButton name={add_circle_black} />
-            <ActivityIndicator size='large' color='#000'/>
         </View>
     </View>
   )
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
 
     },
     aquellanochelocadelosmiltequilas:{
-      backgroundColor: '#007BB0',
+      backgroundColor: '#ccc',
       borderRadius: 20,
       width: screenWidth*0.46,
       marginTop: 20,

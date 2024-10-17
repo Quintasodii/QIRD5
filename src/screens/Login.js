@@ -1,29 +1,22 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, TextInput, TouchableOpacity, Alert, ImageBackground } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 
-
 export default function Login(props) {
-
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const logueo = async () => {
     try {
       const userCredential = await auth().signInWithEmailAndPassword(email, password);
       const uid = userCredential.user.uid;
       const userDoc = await firestore().collection('Users').doc(uid).get();
+
       if (userDoc.exists) {
-        const userData = userDoc.data();
-        const userRole = userData.role;
-        if (userRole === 'admin') {
-          props.navigation.navigate('MyAdminTabs', { screen: 'AdminHome' });
-        } else {
-          props.navigation.navigate('MyTabs', { screen: 'Home' });
-        }
+        console.log('todo bien')
       } else {
         Alert.alert('Error', 'No se encontró el usuario en la base de datos.');
       }
@@ -40,10 +33,10 @@ export default function Login(props) {
 
         <View style={styles.tarjeta}>
           <View style={styles.cajatexto}>
-            <CustomInput placeholder='Correo electronico' onChangeText={(text)=> setEmail(text)}/>
+            <CustomInput placeholder='Correo electrónico' onChangeText={setEmail} />
           </View>
           <View style={styles.cajatexto}>
-            <CustomInput placeholder='Contraseña' onChangeText={(text)=>setPassword(text)} secureTextEntry={true}/>
+            <CustomInput placeholder='Contraseña' onChangeText={setPassword} secureTextEntry={true} />
           </View>
 
           <View>
@@ -56,7 +49,7 @@ export default function Login(props) {
           </View>
 
           <View style={styles.padreboton}>
-            <CustomButton botoncual='Ingresar' onPress={logueo}/>
+            <CustomButton botoncual='Ingresar' onPress={logueo} />
           </View>
         </View>
 
@@ -88,7 +81,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 60,
-    fontWeight: 'Bold',
+    fontWeight: 'bold',
     color: '#ffffff',
   },
   tarjeta: {
@@ -100,8 +93,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   cajatexto: {
-    justifyContent:'center',
-    alignItems:'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   recuperar: {
     marginTop: 20,
@@ -110,20 +103,6 @@ const styles = StyleSheet.create({
   },
   padreboton: {
     alignItems: 'center',
-  },
-  cajaboton: {
-    backgroundColor: '#00B2FF',
-    borderRadius: 15,
-    paddingVertical: 20,
-    width: '100%',
-    marginTop: 20,
-    height: 60,
-  },
-  textoboton: {
-    textAlign: 'center',
-    color: 'black',
-    fontWeight: 'semibold',
-    fontSize: 18,
   },
   registrarse: {
     color: '#ffffff',
