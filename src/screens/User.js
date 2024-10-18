@@ -42,10 +42,7 @@ export default function User(props) {
         .then(querySnapshot => {
           const TokenHistorico = [];
           querySnapshot.forEach(doc => {
-            const data = doc.data();
-            // Asegúrate de que 'Fecha' es un Timestamp y conviértelo
-            const formattedDate = data.Fecha ? format(data.Fecha.toDate(), 'dd/MM/yyyy') : 'Fecha no disponible'; 
-            TokenHistorico.push({ id: doc.id, Fecha: formattedDate, ...data });
+            TokenHistorico.push({ id: doc.id, ...doc.data() });
           });
           setTokens(TokenHistorico);
         })
@@ -104,7 +101,7 @@ export default function User(props) {
             tokens.map(token => (
               <View key={token.id}>
                 <TouchableOpacity style={{ color: '#fff' }}>
-                  <Text style={{ color: '#fff' }}>{token.Fecha}</Text> {/* Renderiza la fecha aquí */}
+                  <Text style={{ color: '#fff' }}>{token.Fecha}</Text> 
                 </TouchableOpacity>
               </View>
             ))
