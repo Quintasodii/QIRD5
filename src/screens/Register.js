@@ -12,11 +12,14 @@ const Register = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [nombreCompleto, setNombreCompleto] = useState('');
+  const [selectedGender, setSelectedGender] = useState(null);
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('success');
 
   const Registro = async () => {
+
+
     try {
       const userCredential = await auth().createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
@@ -25,6 +28,8 @@ const Register = (props) => {
         nombreCompleto,
         email,
         clases_reservadas: [null],
+        genero: selectedGender,
+        role: false,
       });
 
       setAlertMessage('Registro exitoso!');
@@ -41,6 +46,10 @@ const Register = (props) => {
 
   const handleDismiss = () => {
     setAlertVisible(false);
+  };
+
+  const handleGenderSelect = (gender) => {
+    setSelectedGender(gender);
   };
 
   return (
@@ -64,6 +73,14 @@ const Register = (props) => {
           value={password}
           onChangeText={setPassword}
         />
+        <View style={styles.selectorgenero}>
+           <TouchableOpacity style={[styles.genderButton, selectedGender=== 'Masculino' && styles.selectedButton]} onPress={()=> handleGenderSelect('Masculino')}>
+              <Text style={[styles.BotonTextoMF , selectedGender === 'Masculino' && styles.selectedButtonText]}>MASCULINO</Text>
+           </TouchableOpacity>
+           <TouchableOpacity style={[styles.genderButton, selectedGender=== 'Femenino' && styles.selectedButton]} onPress={()=> handleGenderSelect('Femenino')}>
+             <Text style={[styles.BotonTextoMF , selectedGender === 'Femenino' && styles.selectedButtonText]}>Femenino</Text>
+           </TouchableOpacity>
+        </View>
         <View>
           <CustomButton botoncual='REGISTRAR' onPress={Registro} />
         </View>
@@ -108,6 +125,31 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: 'center',
   },
+  selectorgenero:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginBottom: 20
+  },
+  genderButton:{
+    flex: 1,
+    padding: 15,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    backgroundColor: '#ddd', 
+    alignItems: 'center',
+  },
+  selectedButton: {
+    backgroundColor: '#4CAF50',
+  },
+  BotonTextoMF:{
+    fontSize: 16,
+    color: '#fff',
+  },
+  selectedButtonText:{
+    color: '#000',
+  },
+
 });
 
 export default Register;

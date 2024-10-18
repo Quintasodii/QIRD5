@@ -12,6 +12,7 @@ import User from './src/screens/User';
 import Login from './src/screens/Login';
 import Recuperar from './src/screens/Recuperar';
 import Register from './src/screens/Register';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -84,6 +85,7 @@ export default function App() {
   }
 
   return (
+    <GestureHandlerRootView>
     <NavigationContainer>
       {user ? (
         role === true ? <MyAdminTabs /> : <MyTabs />
@@ -91,5 +93,6 @@ export default function App() {
         <AuthStacks />
       )}
     </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
