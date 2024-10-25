@@ -63,7 +63,20 @@ const Clases = () => {
 
     if (error) {
         Alert.alert('Error', error);
-        return null; // Retorna null para evitar renderizar el resto si hay error
+        return null; 
+    }
+
+    const AnotarseAClase = async (doc) => {
+        try{
+        const claseanotarse = firestore().collection('Clases').doc(doc.id);
+        const userr = auth().currentUser;
+        await claseanotarse.update({
+            anotados : firestore.FieldValue.arrayUnion({userid: userr.uid , estado: 'NO TOMADO' })
+        });
+        
+        }catch (error){
+            console.log(error , 'todo mal')
+        }
     }
 
     return (
@@ -79,6 +92,7 @@ const Clases = () => {
                             key={doc.id}
                             dateString={doc.FechaHora}
                             ICONOELEGIR={addd}
+                            FUNCIONALIDAD={()=>AnotarseAClase(doc)}
                         />
                     ))
                 ) : (

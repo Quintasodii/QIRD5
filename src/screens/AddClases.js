@@ -36,7 +36,8 @@ const AddClases = () => {
         .add({
             FechaHora: selectedDateTime,
             description : description,
-            gender: selectedGender
+            gender: selectedGender,
+            anotados : [{name: ' ', estado: 'No Tomado'}]
         })
         setmodalvisible(false)
       } catch (error) {

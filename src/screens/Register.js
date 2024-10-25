@@ -30,7 +30,8 @@ const Register = (props) => {
         clases_reservadas: [null],
         gender: selectedGender,
         role: false,
-        User_ID: user.uid
+        User_ID: user.uid,
+        creditos: 0
       });
 
       setAlertMessage('Registro exitoso!');
