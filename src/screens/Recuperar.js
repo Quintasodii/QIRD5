@@ -32,6 +32,7 @@ export default function Recuperar(props) {
           <CustomInput placeholder='Correo electrónico' value={email} onChangeText={(text) => setEmail(text)}/>
         </View>
         <CustomButton onPress={handleRecuperar} botoncual='Recuperar'/>
+        
       </View>
     </ImageBackground>
   );

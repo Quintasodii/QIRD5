@@ -1,92 +1,116 @@
-import React from 'react'
-import {  Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import IconButton from './IconButton'
-import add_circle_black from '../assets/add_circle_black.png'
-import { format, subHours } from 'date-fns'
-import { es } from 'date-fns/locale'
+import React from 'react';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import IconButton from './IconButton';
+import { format, parse, isValid } from 'date-fns';
+import { es } from 'date-fns/locale';
 
-const {width : screenWidth} = Dimensions.get('screen')
-const {height: screenHeight} = Dimensions.get('screen')
+const { width: screenWidth } = Dimensions.get('screen');
+const { height: screenHeight } = Dimensions.get('screen');
 
+const ClaseAsset = ({ dateString, description, ICONOELEGIR, FUNCIONALIDAD }) => {
+    let eventDate;
+    if (dateString) {
+        try {
+            eventDate = parse(dateString, 'yyyy/MM/dd HH:mm', new Date());
+        } catch (error) {
+            console.error("Error al parsear la fecha:", error);
+            return <Text>Error en la fecha</Text>;
+        }
+    } else {
+        console.warn("dateString no es válido o no es una cadena");
+        return <Text>Fecha no disponible</Text>;
+    }
 
-const ClaseAsset = ({timestamp, description}) => {
-    
-    const eventDate = timestamp.toDate();
+    // Check if the eventDate is valid
+    if (!isValid(eventDate)) {
+        console.error("Fecha no válida:", dateString);
+        return <Text>Fecha no válida</Text>;
+    }
 
-    const eventDatePosta = subHours(eventDate, 3);
+    // Format the event date
+    const eventDatePosta = format(eventDate, 'dd/MM/yyyy HH:mm');
 
-    const dia = format(eventDatePosta, 'd'); 
-    const diaDeLaSemana = format(eventDatePosta, 'eee', { locale: es }); 
-    const horaInicio = format(eventDatePosta, 'HH:mm', { locale: es }); 
-    const horaFin = format(eventDatePosta.setHours(eventDatePosta.getHours() + 1), 'HH:mm', { locale: es });
-    
-  return (
-    <View style={styles.Todo}>
-        <View style={styles.diadiasandia}>
-          <View><Text style={styles.nochenochefantoche}>{dia}</Text></View> 
-          <View><Text style={styles.capitandelespacio}>{diaDeLaSemana}</Text></View>
+    // Get the day and the start time
+    const dia = format(eventDate, 'd');
+    const diaDeLaSemana = format(eventDate, 'eee', { locale: es });
+    const horaInicio = format(eventDate, 'HH:mm', { locale: es });
+
+    // Calculate end time by adding one hour to the original event date
+    const eventDateFin = new Date(eventDate);
+    eventDateFin.setHours(eventDateFin.getHours() + 1);
+    const horaFin = format(eventDateFin, 'HH:mm', { locale: es });
+
+    return (
+        <View style={styles.Todo}>
+            <View style={styles.diadiasandia}>
+                <View><Text style={styles.nochenochefantoche}>{dia}</Text></View>
+                <View><Text style={styles.capitandelespacio}>{diaDeLaSemana}</Text></View>
+            </View>
+            <View style={{ alignContent: 'center', alignItems: 'center' }}>
+                <View style={styles.aquellanochelocadelosmiltequilas}>
+                    <Text style={styles.maramarombai}>{horaInicio} a {horaFin}</Text>
+                </View>
+                <View>
+                    <TouchableOpacity>
+                        <Text style={styles.leermas}>Leer Más</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <View style={styles.parapra}>
+                <IconButton name={ICONOELEGIR} onPress={FUNCIONALIDAD} />
+            </View>
         </View>
-        <View style={{alignContent:'center', alignItems: 'center'}}>
-          <View style={styles.aquellanochelocadelosmiltequilas}><Text style={styles.maramarombai}>{horaInicio} a {horaFin}</Text></View>
-          <View><TouchableOpacity><Text style={styles.leermas}>Leer Mas</Text></TouchableOpacity></View>
-        </View>
-        <View style={styles.parapra}>
-            <IconButton name={add_circle_black} />
-        </View>
-    </View>
-  )
-}
+    );
+};
 
 const styles = StyleSheet.create({
-    Todo:{
+    Todo: {
         backgroundColor: '#009BDE',
-        width: screenWidth*0.87,
-        height: screenHeight*0.1,
+        width: screenWidth * 0.87,
+        height: screenHeight * 0.1,
         borderRadius: 20,
         marginBottom: 20,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
-    diadiasandia:{
-      marginLeft: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
+    diadiasandia: {
+        marginLeft: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    nochenochefantoche:{
-      fontSize: 52,
-      color: '#000',
-      fontWeight: '500'
+    nochenochefantoche: {
+        fontSize: 52,
+        color: '#000',
+        fontWeight: '500',
     },
-    capitandelespacio:{
-      fontSize: 26,
-      color: '#000',
-      marginBottom: 10,
-      marginTop: -15,
-      fontWeight: '900'
+    capitandelespacio: {
+        fontSize: 26,
+        color: '#000',
+        marginBottom: 10,
+        marginTop: -15,
+        fontWeight: '900',
+    },
+    aquellanochelocadelosmiltequilas: {
+        backgroundColor: '#007BB0',
+        borderRadius: 20,
+        width: screenWidth * 0.46,
+        marginTop: 20,
+        marginBottom: 15,
+    },
+    maramarombai: {
+        fontSize: 18,
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: '400',
+    },
+    leermas: {
+        color: '#555',
+        fontWeight: '800',
+    },
+    parapra: {
+        justifyContent: 'center',
+        marginRight: 15,
+    },
+});
 
-    },
-    aquellanochelocadelosmiltequilas:{
-      backgroundColor: '#ccc',
-      borderRadius: 20,
-      width: screenWidth*0.46,
-      marginTop: 20,
-      marginBottom: 15,
-
-    },
-    maramarombai:{
-      fontSize: 18,
-      color: '#000',
-      textAlign: 'center',
-      fontWeight: '900'
-    },
-    leermas:{
-      color: '959595',
-      fontWeight:'800'
-    },
-    parapra:{
-      justifyContent: 'center',
-      marginRight: 15
-    }
-})
-
-export default ClaseAsset
+export default ClaseAsset;

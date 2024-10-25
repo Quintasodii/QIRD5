@@ -4,10 +4,11 @@ import { Dimensions, StyleSheet, TextInput, View } from 'react-native'
 const {width: screenWidth} = Dimensions.get('screen');
 const {height: screenHeight} = Dimensions.get('screen');
 
-const CustomInput = ({placeholder, value, onChangeText, secureTextEntry}) => {
+const CustomInput = ({placeholder, value, onChangeText, secureTextEntry,  multiline}) => {
   return (
     <View style={styles.cajatexto}>
         <TextInput
+        multiline={multiline}
         placeholder={placeholder}
         style={styles.input}
         value={value}
@@ -34,7 +35,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         color: '#fff',
         flex: 1,
-        textAlignVertical: 'center'
+        textAlignVertical: 'center',
+        overflow: ''
     }
 })
 

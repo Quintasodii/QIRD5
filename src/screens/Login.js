@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, Alert, ImageBackground } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity, Alert, ImageBackground, Dimensions } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
+
+const {width, screenWidth} = Dimensions.get('screen')
+const {height, screenHeight} = Dimensions.get('screen')
 
 export default function Login(props) {
   const [email, setEmail] = useState('');
@@ -33,7 +36,7 @@ export default function Login(props) {
 
         <View style={styles.tarjeta}>
           <View style={styles.cajatexto}>
-            <CustomInput placeholder='Correo electrónico' onChangeText={setEmail} />
+            <CustomInput placeholder='Correo electrónico' onChangeText={setEmail} style={styles.cajatexto} />
           </View>
           <View style={styles.cajatexto}>
             <CustomInput placeholder='Contraseña' onChangeText={setPassword} secureTextEntry={true} />
@@ -67,6 +70,15 @@ export default function Login(props) {
 }
 
 const styles = StyleSheet.create({
+  cajatexto:{
+    paddingVertical: 20,
+    backgroundColor: '#4d4d4d',
+    borderRadius: 15,
+    marginVertical: 10,
+    width: screenWidth*0.85,
+    height: screenHeight*0.055,
+    opacity: 0.5
+},
   padre: {
     flex: 1,
     backgroundColor: '#000000',
@@ -81,7 +93,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 60,
-    fontWeight: 'bold',
+    fontWeight: '700',
     color: '#ffffff',
   },
   tarjeta: {

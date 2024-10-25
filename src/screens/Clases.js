@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View, StyleSheet, Dimensions, ActivityIndicator, Alert } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import ClaseAsset from '../components/ClaseAsset';
+import addd from '../assets/add_circle_black.png';
 
 const { width: screenWidth } = Dimensions.get('screen');
 const { height: screenHeight } = Dimensions.get('screen');
@@ -9,24 +11,60 @@ const { height: screenHeight } = Dimensions.get('screen');
 const Clases = () => {
     const [documents, setDocuments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const unsubscribe = firestore()
-            .collection('Clases')
-            .onSnapshot(querySnapshot => {
-                const docs = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                setDocuments(docs);
+        const fetchData = async () => {
+            try {
+                const uiddelloco = auth().currentUser;
+    
+                if (uiddelloco) {
+                    const userDoc = await firestore().collection('Users').doc(uiddelloco.uid).get();
+                    const todalainfodelloco = userDoc.data();
+                    
+                    if (todalainfodelloco?.gender) {
+                        console.log(todalainfodelloco.gender);
+                        
+                        const clasesSnapshot = await firestore()
+                            .collection('Clases')
+                            .where('gender', '==', todalainfodelloco.gender)
+                            .get();
+                        
+                        const clasesdeseadas = clasesSnapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data(),
+                        }));
+                        
+                        setDocuments(clasesdeseadas);
+                    } else {
+                        console.log("No se encontró el género del usuario.");
+                    }
+                } else {
+                    console.log("No hay un usuario autenticado");
+                }
+            } catch (error) {
+                console.error("Error obteniendo datos:", error);
+                setError("Error obteniendo los datos. Por favor, intenta más tarde.");
+            } finally {
                 setLoading(false);
-            }, error => {
-                Alert.alert('Error', error.message);
-                setLoading(false);
-            });
-
-        return () => unsubscribe();
+            }
+        };
+    
+        fetchData();
     }, []);
+    
+    if (loading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#ffffff" />
+            </View>
+        );
+    }
+
+    if (error) {
+        Alert.alert('Error', error);
+        return null; // Retorna null para evitar renderizar el resto si hay error
+    }
 
     return (
         <View style={styles.container}>
@@ -39,14 +77,15 @@ const Clases = () => {
                     documents.map(doc => (
                         <ClaseAsset
                             key={doc.id}
-                            timestamp={doc.FechaHora} 
+                            dateString={doc.FechaHora}
+                            ICONOELEGIR={addd}
                         />
                     ))
                 ) : (
                     <Text style={styles.noClassesText}>No hay clases disponibles.</Text>
                 )}
             </ScrollView>
-            <View style={{ height: screenHeight * 0.1 }}></View>
+            <View style={{ height: screenHeight * 0.1 }} />
         </View>
     );
 };
@@ -60,7 +99,7 @@ const styles = StyleSheet.create({
         borderRadius: 14,
     },
     container: {
-        height: screenHeight,
+        flex: 1,
         backgroundColor: '#0E0E0E',
         width: screenWidth,
         alignItems: 'center',

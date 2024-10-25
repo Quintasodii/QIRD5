@@ -28,8 +28,9 @@ const Register = (props) => {
         nombreCompleto,
         email,
         clases_reservadas: [null],
-        genero: selectedGender,
+        gender: selectedGender,
         role: false,
+        User_ID: user.uid
       });
 
       setAlertMessage('Registro exitoso!');
@@ -75,7 +76,7 @@ const Register = (props) => {
         />
         <View style={styles.selectorgenero}>
            <TouchableOpacity style={[styles.genderButton, selectedGender=== 'Masculino' && styles.selectedButton]} onPress={()=> handleGenderSelect('Masculino')}>
-              <Text style={[styles.BotonTextoMF , selectedGender === 'Masculino' && styles.selectedButtonText]}>MASCULINO</Text>
+              <Text style={[styles.BotonTextoMF , selectedGender === 'Masculino' && styles.selectedButtonText]}>Masculino</Text>
            </TouchableOpacity>
            <TouchableOpacity style={[styles.genderButton, selectedGender=== 'Femenino' && styles.selectedButton]} onPress={()=> handleGenderSelect('Femenino')}>
              <Text style={[styles.BotonTextoMF , selectedGender === 'Femenino' && styles.selectedButtonText]}>Femenino</Text>
@@ -117,8 +118,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 60,
-    fontWeight: 'Bold',
+    fontWeight: '700',
     color: '#ffffff',
+    marginBottom: 35
   },
   registrarse: {
     color: '#ffffff',
@@ -128,7 +130,8 @@ const styles = StyleSheet.create({
   selectorgenero:{
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '80%',
+    width: '95%',
+    marginTop: 10,
     marginBottom: 20
   },
   genderButton:{
@@ -136,15 +139,16 @@ const styles = StyleSheet.create({
     padding: 15,
     marginHorizontal: 10,
     borderRadius: 10,
-    backgroundColor: '#ddd', 
+    backgroundColor: '#434334', 
     alignItems: 'center',
   },
   selectedButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#00B2FF',
   },
   BotonTextoMF:{
-    fontSize: 16,
+    fontSize: 17,
     color: '#fff',
+    fontWeight: '800'
   },
   selectedButtonText:{
     color: '#000',

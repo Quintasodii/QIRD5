@@ -118,7 +118,7 @@ export default function User(props) {
             ))
           ) : (
             <View>
-              <Text style={{ color: '#fff' }}>No hay registro de tokens</Text>
+              <Text style={{ color: '#009BDE' }}>No hay registro de tokens</Text>
             </View>
           )}
         </ScrollView>
@@ -194,7 +194,7 @@ Registros:{
 },
 REGISTROTITU:{
   fontSize: 30,
-  color: '#aa7',
+  color: '#fff',
   marginTop: 14,
   marginBottom: 27
 },

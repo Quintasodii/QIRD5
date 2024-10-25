@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
       paddingHorizontal: 15,
       color: '#000',
       flex: 1,
-      fontSize: 20
+      fontSize: 20,
+      fontWeight: '800'
   }
 })
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Pressable, Text, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet,  Text, TouchableOpacity, Image } from 'react-native';
 
 
 const IconButton = ({ name, onPress, style }) => {

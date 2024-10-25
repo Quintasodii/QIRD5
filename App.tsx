@@ -13,6 +13,7 @@ import Login from './src/screens/Login';
 import Recuperar from './src/screens/Recuperar';
 import Register from './src/screens/Register';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import AddClases from './src/screens/AddClases';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -33,8 +34,12 @@ function MyTabs() {
 
 function MyAdminTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{
+      tabBarActiveBackgroundColor: '#1f1f1f',
+      tabBarInactiveBackgroundColor: '#1e1e1e'
+    }}>
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
+      <Tab.Screen name='Clases' component={AddClases} options={{headerShown: false}}/>
       <Tab.Screen name='User' component={User} options={{headerShown: false}}/>
     </Tab.Navigator>
   );
