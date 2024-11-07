@@ -7,7 +7,7 @@ import { es } from 'date-fns/locale';
 const { width: screenWidth } = Dimensions.get('screen');
 const { height: screenHeight } = Dimensions.get('screen');
 
-const ClaseAsset = ({ dateString, description, ICONOELEGIR, FUNCIONALIDAD }) => {
+const ClaseAsset = ({ dateString, description, ICONOELEGIR, FUNCIONALIDAD, terreque }) => {
     let eventDate;
     if (dateString) {
         try {
@@ -25,6 +25,10 @@ const ClaseAsset = ({ dateString, description, ICONOELEGIR, FUNCIONALIDAD }) => 
     if (!isValid(eventDate)) {
         console.error("Fecha no válida:", dateString);
         return <Text>Fecha no válida</Text>;
+    }
+
+    const LEERMAS = () => {
+
     }
 
     // Format the event date
@@ -51,7 +55,7 @@ const ClaseAsset = ({ dateString, description, ICONOELEGIR, FUNCIONALIDAD }) => 
                     <Text style={styles.maramarombai}>{horaInicio} a {horaFin}</Text>
                 </View>
                 <View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={terreque}>
                         <Text style={styles.leermas}>Leer Más</Text>
                     </TouchableOpacity>
                 </View>

@@ -6,10 +6,13 @@ import myImage from '../assets/fondo_home.png';
 import Creditos from '../components/Creditos';
 import Close from '../assets/CLOSE.png'
 import IconButton from '../components/IconButton';
+import efect from '../assets/efetivo_black.png';
+import trasnferblack from '../assets/tranfer_finblack.png'
 
 export default function Home() {
   const [ModalVisibilityShesh,setModalVisibilityShesh] = useState(false)
-  const [selectedPlan, setSelectedPlan] = useState('4kon')
+  const [selectedPlan, setSelectedPlan] = useState(4)
+  const [selectedMpago, setselectedMpago] = useState('Efectivo')
 
   function goanashe  ()  {
     try{
@@ -19,9 +22,29 @@ export default function Home() {
     }
   }
 
+  const handlerequest = async (selectedPlan, selectedMpago) => {
+    try{
+      const userre = auth().currentUser
+      const URSER = {
+        User_ID:  userre.uid,
+        PlanToken: selectedPlan ,
+        Estado : 'Pendiente' ,
+        Fecha: firestore.FieldValue.serverTimestamp(),
+        MetodoPago: selectedMpago
+      }
+      await firestore().collection('TokenRequest').add(URSER)
+      setModalVisibilityShesh(false)
+    }catch (error){
+      console.log(error, 'No anda gordo')
+    }
+  }
+
   const handlePlanSelect = (arcanashe) => {
-    console.log(arcanashe)
     setSelectedPlan(arcanashe);
+  };
+
+  const handleMpagoSelect = (papanashe) => {
+    setselectedMpago(papanashe);
   };
 
   return (
@@ -29,9 +52,6 @@ export default function Home() {
       
       <View style={styles.billetera}>
       <Creditos anashe={goanashe}/>
-      </View>
-      <View style={styles.wod}>
-        <Text style={styles.wodtext}>Trabajo del día:</Text>
       </View>
       <View style={styles.wod}>
         <Text style={styles.wodtext}>Próxima clase:</Text>
@@ -55,18 +75,32 @@ export default function Home() {
                 <Text style={styles.subtitulos}>Elegir plan: </Text>
               <View>
 
-                <TouchableOpacity style={[styles.PlanButton, selectedPlan === '4kon' && styles.selectedButton]} onPress={()=> handlePlanSelect('4kon')}>
-                  <Text style={[styles.BotonTextoMF , selectedPlan === '4kon' && styles.selectedButtonText]}>Abonar 4 clases...............................</Text>
+                <TouchableOpacity style={[styles.PlanButton, selectedPlan === 4 && styles.selectedButton]} onPress={()=> handlePlanSelect(4)}>
+                  <Text style={[styles.BotonTextoMF , selectedPlan === 4 && styles.selectedButtonText]}>Abonar 4 clases...............................</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={[styles.PlanButton, selectedPlan=== '8kon' && styles.selectedButton]} onPress={()=> handlePlanSelect('8kon')}>
-                 <Text style={[styles.BotonTextoMF , selectedPlan === '8kon' && styles.selectedButtonText]}>Abonar 8 clases................................</Text>
+                <TouchableOpacity style={[styles.PlanButton, selectedPlan=== 8 && styles.selectedButton]} onPress={()=> handlePlanSelect(8)}>
+                 <Text style={[styles.BotonTextoMF , selectedPlan === 8 && styles.selectedButtonText]}>Abonar 8 clases................................</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={[styles.PlanButton, selectedPlan=== '12kon' && styles.selectedButton]} onPress={()=> handlePlanSelect('12kon')}>
-                 <Text style={[styles.BotonTextoMF , selectedPlan === '12kon' && styles.selectedButtonText]}>Abonar 12 clases..............................</Text>
+                <TouchableOpacity style={[styles.PlanButton, selectedPlan=== 12 && styles.selectedButton]} onPress={()=> handlePlanSelect(12)}>
+                 <Text style={[styles.BotonTextoMF , selectedPlan === 12 && styles.selectedButtonText]}>Abonar 12 clases..............................</Text>
                 </TouchableOpacity>
                 
+                </View>
+                <Text style={styles.subtitulos}>Elegir metodo de pago: </Text>
+                <View style={styles.MPagoBox}>
+                <TouchableOpacity style={[styles.MpagoBut, selectedMpago === 'Efectivo' && styles.selectedButton]} onPress={()=> handleMpagoSelect('Efectivo')}>
+                  <Image source={efect} style={{alignSelf: 'center'}}/><Text style={styles.BotonTextoMP}>Efectivo</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.MpagoBut, selectedMpago === 'Transferencia' && styles.selectedButton]} onPress={()=>handleMpagoSelect('Transferencia')}>
+                  <Image source={trasnferblack} style={{alignSelf: 'center'}}/><Text style={styles.BotonTextoMP}>Transferencia</Text>
+                </TouchableOpacity>
+                </View>
+                <View style={styles.submit}>
+                  <TouchableOpacity style={styles.submitbut} onPress={()=>handlerequest(selectedPlan, selectedMpago)}>
+                    <Text style={styles.submittxt}>Proceder</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
@@ -78,6 +112,44 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+  submit:{
+    marginTop: 70,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  submitbut:{
+    width: '85%',
+    height: 40, 
+    backgroundColor: '#009BDE',
+    alignItems: 'center',
+    borderRadius: 10,
+    justifyContent: 'center'
+  },
+  submittxt:{
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: '900',
+    color: '#000',
+  },
+  BotonTextoMP:{
+    fontSize: 14,
+    color: '#fff',
+    fontWeight: '300',
+    textAlign: 'center',
+  },
+  MPagoBox:{
+    flexDirection: 'row',
+    justifyContent: 'space-evenly'
+  },
+  MpagoBut:{
+    justifyContent: 'center',
+    width: 120,
+    height: 125,
+    borderRadius: 10,
+    borderColor: '#303030',
+    borderWidth: 1,
+    backgroundColor: '#303030'
+  },
   selectedButton: {
     backgroundColor: '#009BDE',
   },
@@ -107,7 +179,8 @@ const styles = StyleSheet.create({
     fontWeight: '100'
   },
   formulariotokens:{
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 34
   },
   Cerrar:{
     flexDirection: 'row',

@@ -31,7 +31,7 @@ const Register = (props) => {
         gender: selectedGender,
         role: false,
         User_ID: user.uid,
-        creditos: 0
+        Creditos: 0
       });
 
       setAlertMessage('Registro exitoso!');

@@ -14,7 +14,7 @@ import Recuperar from './src/screens/Recuperar';
 import Register from './src/screens/Register';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AddClases from './src/screens/AddClases';
-import Asistencias from './src/screens/Asistencias';
+import Tokenrequest from './src/screens/Tokenrequest';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -40,7 +40,7 @@ function MyAdminTabs() {
       tabBarInactiveBackgroundColor: '#1e1e1e'
     }}>
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Tab.Screen name='Asistencias' component={Asistencias} options={{headerShown: false}}/>
+      <Tab.Screen name='TokensRequest' component={Tokenrequest} options={{headerShown: false}}/>
       <Tab.Screen name='Clases' component={AddClases} options={{headerShown: false}}/>
       <Tab.Screen name="Clase" component={Clases} options={{ headerShown: false }} />
       <Tab.Screen name='User' component={User} options={{headerShown: false}}/>

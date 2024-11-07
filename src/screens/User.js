@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, ActivityIndicator, TouchableOpacity, Image, Dimensions } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { format } from 'date-fns'; // Importa la función de formateo
 import { ScrollView } from 'react-native-gesture-handler';
-import kakaka from '../assets/add_circle.png';
+import kakaka from '../assets/PERFILAO.png';
 
 const {width :  screenWidth} = Dimensions.get('screen')
 const {height :  screenHeight} = Dimensions.get('screen')
@@ -20,7 +19,6 @@ export default function User(props) {
       const uid = currentUser.uid;
       setUid(uid);
 
-      // Obtener datos del usuario
       firestore()
         .collection('Users')
         .doc(uid)
@@ -132,6 +130,9 @@ export default function User(props) {
 }
 
 const styles = StyleSheet.create({
+  ImagenPerfil:{
+    marginLeft: 10
+  },
   padre: {
     flex: 1,
     backgroundColor: '#000',
