@@ -1,109 +1,110 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Text, StyleSheet, View, Image, TouchableOpacity, Modal } from 'react-native';
-import firestore from '@react-native-firebase/firestore'
-import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import myImage from '../assets/fondo_home.png';
 import Creditos from '../components/Creditos';
-import Close from '../assets/CLOSE.png'
+import Close from '../assets/CLOSE.png';
 import IconButton from '../components/IconButton';
 import efect from '../assets/efetivo_black.png';
-import trasnferblack from '../assets/tranfer_finblack.png'
+import trasnferblack from '../assets/tranfer_finblack.png';
+import infoImage from '../assets/ACUETA.png'
 
 export default function Home() {
-  const [ModalVisibilityShesh,setModalVisibilityShesh] = useState(false)
-  const [selectedPlan, setSelectedPlan] = useState(4)
-  const [selectedMpago, setselectedMpago] = useState('Efectivo')
+  const [modalVisibilityShesh, setModalVisibilityShesh] = useState(false);
+  const [infoModalVisible, setInfoModalVisible] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(4);
+  const [selectedMpago, setselectedMpago] = useState('Efectivo');
 
-  function goanashe  ()  {
-    try{
-      setModalVisibilityShesh(true);
-    }catch (error){
-      console.log(error, 'NONONONO')
-    }
+  function goanashe() {
+    setModalVisibilityShesh(true);
   }
 
   const handlerequest = async (selectedPlan, selectedMpago) => {
-    try{
-      const userre = auth().currentUser
+    try {
+      const user = auth().currentUser;
       const URSER = {
-        User_ID:  userre.uid,
-        PlanToken: selectedPlan ,
-        Estado : 'Pendiente' ,
+        User_ID: user.uid,
+        PlanToken: selectedPlan,
+        Estado: 'Pendiente',
         Fecha: firestore.FieldValue.serverTimestamp(),
-        MetodoPago: selectedMpago
-      }
-      await firestore().collection('TokenRequest').add(URSER)
-      setModalVisibilityShesh(false)
-    }catch (error){
-      console.log(error, 'No anda gordo')
+        MetodoPago: selectedMpago,
+      };
+      await firestore().collection('TokenRequest').add(URSER);
+      setModalVisibilityShesh(false);
+      setInfoModalVisible(true); // Abre el modal con información fija
+    } catch (error) {
+      console.log(error, 'Error en la solicitud');
     }
-  }
-
-  const handlePlanSelect = (arcanashe) => {
-    setSelectedPlan(arcanashe);
   };
 
-  const handleMpagoSelect = (papanashe) => {
-    setselectedMpago(papanashe);
-  };
+  const handlePlanSelect = (plan) => setSelectedPlan(plan);
+
+  const handleMpagoSelect = (mpago) => setselectedMpago(mpago);
 
   return (
     <View style={styles.padre}>
-      
       <View style={styles.billetera}>
-      <Creditos anashe={goanashe}/>
+        <Creditos anashe={goanashe} />
       </View>
-      <View style={styles.wod}>
-        <Text style={styles.wodtext}>Próxima clase:</Text>
-      </View>
+      <View style={{ height: 100 }}></View>
       <View style={styles.imagen}>
         <Image source={myImage} />
       </View>
-      <Modal
-      transparent={true}
-      visible={ModalVisibilityShesh}
-      animationType='fade'
-      >
+
+      {/* Primer Modal */}
+      <Modal transparent={true} visible={modalVisibilityShesh} animationType="fade">
         <View style={styles.ModalBack}>
           <View style={styles.ModalBlock}>
             <View style={styles.Cerrar}>
-              <Text style={{color: '#009BDE', fontWeight: '500', textAlignVertical: 'center', fontSize: 29, marginRight: 50}}>Comprar Tokens</Text>
-              <IconButton name={Close} onPress={()=> setModalVisibilityShesh(false)}/>
+              <Text style={styles.title}>Comprar Tokens</Text>
+              <IconButton name={Close} onPress={() => setModalVisibilityShesh(false)} />
             </View>
             <View style={styles.formulariotokens}>
-              <View style={styles.Planes}>
-                <Text style={styles.subtitulos}>Elegir plan: </Text>
+              <Text style={styles.subtitulos}>Elegir plan: </Text>
               <View>
-
-                <TouchableOpacity style={[styles.PlanButton, selectedPlan === 4 && styles.selectedButton]} onPress={()=> handlePlanSelect(4)}>
-                  <Text style={[styles.BotonTextoMF , selectedPlan === 4 && styles.selectedButtonText]}>Abonar 4 clases...............................</Text>
+                <TouchableOpacity style={[styles.PlanButton, selectedPlan === 4 && styles.selectedButton]} onPress={() => handlePlanSelect(4)}>
+                  <Text style={[styles.BotonTextoMF, selectedPlan === 4 && styles.selectedButtonText]}>Abonar 4 clases</Text>
                 </TouchableOpacity>
-                
-                <TouchableOpacity style={[styles.PlanButton, selectedPlan=== 8 && styles.selectedButton]} onPress={()=> handlePlanSelect(8)}>
-                 <Text style={[styles.BotonTextoMF , selectedPlan === 8 && styles.selectedButtonText]}>Abonar 8 clases................................</Text>
+                <TouchableOpacity style={[styles.PlanButton, selectedPlan === 8 && styles.selectedButton]} onPress={() => handlePlanSelect(8)}>
+                  <Text style={[styles.BotonTextoMF, selectedPlan === 8 && styles.selectedButtonText]}>Abonar 8 clases</Text>
                 </TouchableOpacity>
-                
-                <TouchableOpacity style={[styles.PlanButton, selectedPlan=== 12 && styles.selectedButton]} onPress={()=> handlePlanSelect(12)}>
-                 <Text style={[styles.BotonTextoMF , selectedPlan === 12 && styles.selectedButtonText]}>Abonar 12 clases..............................</Text>
+                <TouchableOpacity style={[styles.PlanButton, selectedPlan === 12 && styles.selectedButton]} onPress={() => handlePlanSelect(12)}>
+                  <Text style={[styles.BotonTextoMF, selectedPlan === 12 && styles.selectedButtonText]}>Abonar 12 clases</Text>
                 </TouchableOpacity>
-                
-                </View>
-                <Text style={styles.subtitulos}>Elegir metodo de pago: </Text>
-                <View style={styles.MPagoBox}>
-                <TouchableOpacity style={[styles.MpagoBut, selectedMpago === 'Efectivo' && styles.selectedButton]} onPress={()=> handleMpagoSelect('Efectivo')}>
-                  <Image source={efect} style={{alignSelf: 'center'}}/><Text style={styles.BotonTextoMP}>Efectivo</Text>
+              </View>
+              <Text style={styles.subtitulos}>Elegir metodo de pago: </Text>
+              <View style={styles.MPagoBox}>
+                <TouchableOpacity style={[styles.MpagoBut, selectedMpago === 'Efectivo' && styles.selectedButton]} onPress={() => handleMpagoSelect('Efectivo')}>
+                  <Image source={efect} style={{ alignSelf: 'center' }} />
+                  <Text style={styles.BotonTextoMP}>Efectivo</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.MpagoBut, selectedMpago === 'Transferencia' && styles.selectedButton]} onPress={()=>handleMpagoSelect('Transferencia')}>
-                  <Image source={trasnferblack} style={{alignSelf: 'center'}}/><Text style={styles.BotonTextoMP}>Transferencia</Text>
+                <TouchableOpacity style={[styles.MpagoBut, selectedMpago === 'Transferencia' && styles.selectedButton]} onPress={() => handleMpagoSelect('Transferencia')}>
+                  <Image source={trasnferblack} style={{ alignSelf: 'center' }} />
+                  <Text style={styles.BotonTextoMP}>Transferencia</Text>
                 </TouchableOpacity>
-                </View>
-                <View style={styles.submit}>
-                  <TouchableOpacity style={styles.submitbut} onPress={()=>handlerequest(selectedPlan, selectedMpago)}>
-                    <Text style={styles.submittxt}>Proceder</Text>
-                  </TouchableOpacity>
-                </View>
+              </View>
+              <View style={styles.submit}>
+                <TouchableOpacity style={styles.submitbut} onPress={() => handlerequest(selectedPlan, selectedMpago)}>
+                  <Text style={styles.submittxt}>Proceder</Text>
+                </TouchableOpacity>
               </View>
             </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Segundo Modal con Información Fija */}
+      <Modal transparent={true} visible={infoModalVisible} animationType="fade">
+        <View style={styles.ModalBack}>
+          <View style={styles.infoModal}>
+            <Image source={infoImage} style={styles.infoImage}/>
+            <Text style={styles.infoText}>ALIAS: TRAININGPOINTMP</Text>
+            <Text style={styles.infoText}>CVU:0000006574837774837</Text>
+            
+            <TouchableOpacity style={styles.closeInfoButton} onPress={() => setInfoModalVisible(false)}>
+              <Text style={styles.infoButtonText}>Cerrar</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -210,6 +211,7 @@ const styles = StyleSheet.create({
     width: '50%',
     height: '20%',
     marginTop: '15%',
+    marginLeft: 30,
     alignItems: 'center',
   },
   billetera: {
@@ -235,5 +237,44 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingLeft: '10%',
     fontWeight: 'semibold',
+  },
+  infoModal: {
+    height: '40%',
+    width: '75%',
+    backgroundColor: '#232323',
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  infoImage: {
+    width: 80,
+    height: 80,
+    marginBottom: 20,
+  },
+  infoText: {
+    fontSize: 18,
+    color: '#aaa',
+    marginBottom: 20,
+    textAlign: 'center',
+    fontWeight: '900'
+  },
+  closeInfoButton: {
+    backgroundColor: '#009BDE',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  infoButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  title: {
+    color: '#009BDE',
+    fontWeight: '500',
+    textAlignVertical: 'center',
+    fontSize: 29,
+    marginRight: 50,
   },
 });
