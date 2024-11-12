@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet, Button, ScrollView } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, Button, ScrollView, Dimensions } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+
+const {height: screenHeight, width: screenWidth} = Dimensions.get('screen')
 
 const LEERMAS = ({ visibler, onClose, clases }) => {
     const [anotadoss, setAnotadoss] = useState([]);
@@ -104,31 +106,31 @@ const LEERMAS = ({ visibler, onClose, clases }) => {
 
 // Estilos permanecen igual
 const styles = StyleSheet.create({
-    Asistentes:{
+    Asistentes: {
         alignItems: 'center',
         alignSelf: 'center',
-        width: '80%',
-        height: 420
+        width: '90%',
+        height: screenHeight * 0.4,
     },
-    InfoChill:{
+    InfoChill: {
         alignSelf: 'flex-start',
         marginLeft: 20,
         marginTop: 20,
     },
-    GRANTITULO:{
+    GRANTITULO: {
         alignSelf: 'flex-start',
         marginLeft: 20,
-        marginTop: 10
+        marginTop: 10,
     },
-    HORAFECHA:{
-        fontSize: 20,
+    HORAFECHA: {
+        fontSize: screenWidth * 0.05, // Ajuste adaptativo al ancho
         fontWeight: '900',
         color: '#fff',
-        marginTop: 15
+        marginTop: 15,
     },
     scrollView: {
         padding: 10,
-        width: '100%'
+        width: '100%',
     },
     anotadoContainer: {
         padding: 15,
@@ -137,14 +139,14 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     textoAlumno: {
-        fontSize: 17,
+        fontSize: screenWidth * 0.04, // Ajuste adaptativo al ancho
         fontWeight: '900',
-        color: '#fff'
+        color: '#fff',
     },
     textoEstado: {
-        fontSize: 16,
+        fontSize: screenWidth * 0.04,
         color: '#fff',
-        fontWeight: '700'
+        fontWeight: '700',
     },
     botonesContainer: {
         flexDirection: 'row',
@@ -158,47 +160,47 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: '80%',
-        height: 600,
+        width: '85%',
+        height: screenHeight * 0.65, // Adaptable en función de la pantalla
         backgroundColor: '#111',
         borderRadius: 10,
         alignItems: 'center',
+        padding: 15,
     },
     text: {
-        fontSize: 20,
-        marginBottom: 0,
+        fontSize: screenWidth * 0.045, // Ajuste adaptativo
         fontWeight: '900',
-        color: '#fff'
+        color: '#fff',
     },
     title: {
-        fontSize: 20,
+        fontSize: screenWidth * 0.05,
         fontWeight: 'bold',
         marginTop: 15,
         marginLeft: 20,
         alignSelf: 'flex-start',
-        color: '#fff'
+        color: '#fff',
     },
     noStudentsText: {
-        fontSize: 16,
+        fontSize: screenWidth * 0.04,
         color: '#009BDE',
         textAlign: 'center',
     },
     closeButton: {
         marginTop: 20,
         color: '#009BDE',
-        fontSize: 16,
+        fontSize: screenWidth * 0.045,
     },
     finishButton: {
         textAlign: 'center',
-        width: 260,
+        width: screenWidth * 0.7,
         color: 'black',
-        fontSize: 18,
+        fontSize: screenWidth * 0.05,
         fontWeight: '700',
         backgroundColor: 'red',
-        padding: 5,
+        paddingVertical: 8,
         borderRadius: 15,
-        marginTop: 20
-    }
+        marginTop: 20,
+    },
 });
 
 export default LEERMAS;

@@ -54,7 +54,7 @@ const AddNotif = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#0e0e0e',
     padding: 20,
     justifyContent: 'center',
     alignContent: 'center'

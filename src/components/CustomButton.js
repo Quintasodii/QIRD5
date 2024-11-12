@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
       color: '#000',
       flex: 1,
       fontSize: 20,
-      fontWeight: '800'
+      fontWeight: '500'
   }
 })
 

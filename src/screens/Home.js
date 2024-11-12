@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, Image, TouchableOpacity, Modal } from 'react-native';
+import { Text, StyleSheet, View, Image, TouchableOpacity, Modal, Dimensions } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import myImage from '../assets/fondo_home.png';
@@ -8,7 +8,8 @@ import Close from '../assets/CLOSE.png';
 import IconButton from '../components/IconButton';
 import efect from '../assets/efetivo_black.png';
 import trasnferblack from '../assets/tranfer_finblack.png';
-import infoImage from '../assets/ACUETA.png'
+import infoImage from '../assets/ACUETA.png';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default function Home() {
   const [modalVisibilityShesh, setModalVisibilityShesh] = useState(false);
@@ -32,7 +33,7 @@ export default function Home() {
       };
       await firestore().collection('TokenRequest').add(URSER);
       setModalVisibilityShesh(false);
-      setInfoModalVisible(true); // Abre el modal con información fija
+      setInfoModalVisible(true);
     } catch (error) {
       console.log(error, 'Error en la solicitud');
     }
@@ -47,9 +48,9 @@ export default function Home() {
       <View style={styles.billetera}>
         <Creditos anashe={goanashe} />
       </View>
-      <View style={{ height: 100 }}></View>
+      <View style={styles.spacer}></View>
       <View style={styles.imagen}>
-        <Image source={myImage} />
+        <Image source={myImage} style={styles.mainImage} />
       </View>
 
       {/* Primer Modal */}
@@ -76,11 +77,11 @@ export default function Home() {
               <Text style={styles.subtitulos}>Elegir metodo de pago: </Text>
               <View style={styles.MPagoBox}>
                 <TouchableOpacity style={[styles.MpagoBut, selectedMpago === 'Efectivo' && styles.selectedButton]} onPress={() => handleMpagoSelect('Efectivo')}>
-                  <Image source={efect} style={{ alignSelf: 'center' }} />
+                  <Image source={efect} style={styles.iconImage} />
                   <Text style={styles.BotonTextoMP}>Efectivo</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.MpagoBut, selectedMpago === 'Transferencia' && styles.selectedButton]} onPress={() => handleMpagoSelect('Transferencia')}>
-                  <Image source={trasnferblack} style={{ alignSelf: 'center' }} />
+                  <Image source={trasnferblack} style={styles.iconImage} />
                   <Text style={styles.BotonTextoMP}>Transferencia</Text>
                 </TouchableOpacity>
               </View>
@@ -98,7 +99,7 @@ export default function Home() {
       <Modal transparent={true} visible={infoModalVisible} animationType="fade">
         <View style={styles.ModalBack}>
           <View style={styles.infoModal}>
-            <Image source={infoImage} style={styles.infoImage}/>
+            <Image source={infoImage} style={styles.infoImage} />
             <Text style={styles.infoText}>ALIAS: TRAININGPOINTMP</Text>
             <Text style={styles.infoText}>CVU:0000006574837774837</Text>
             
@@ -113,39 +114,43 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-  submit:{
-    marginTop: 70,
+  title:{
+    fontSize: wp('7%'),
+    color: '#fff'
+  },
+  submit: {
+    marginTop: hp('7%'),
     alignItems: 'center',
     justifyContent: 'center'
   },
-  submitbut:{
-    width: '85%',
-    height: 40, 
+  submitbut: {
+    width: wp('75%'),
+    height: hp('6%'),
     backgroundColor: '#009BDE',
     alignItems: 'center',
     borderRadius: 10,
     justifyContent: 'center'
   },
-  submittxt:{
-    fontSize: 18,
+  submittxt: {
+    fontSize: wp('4.5%'),
     textAlign: 'center',
     fontWeight: '900',
     color: '#000',
   },
-  BotonTextoMP:{
-    fontSize: 14,
+  BotonTextoMP: {
+    fontSize: wp('3.5%'),
     color: '#fff',
     fontWeight: '300',
     textAlign: 'center',
   },
-  MPagoBox:{
+  MPagoBox: {
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
-  MpagoBut:{
+  MpagoBut: {
     justifyContent: 'center',
-    width: 120,
-    height: 125,
+    width: wp('28%'),
+    height: hp('15%'),
     borderRadius: 10,
     borderColor: '#303030',
     borderWidth: 1,
@@ -154,52 +159,52 @@ const styles = StyleSheet.create({
   selectedButton: {
     backgroundColor: '#009BDE',
   },
-  selectedButtonText:{
+  selectedButtonText: {
     color: '#000',
   },
-  BotonTextoMF:{
-    marginLeft: 15,
-    fontSize: 18,
+  BotonTextoMF: {
+    marginLeft: wp('3.5%'),
+    fontSize: wp('4%'),
     color: '#fff',
     fontWeight: '500'
   },
-  PlanButton:{
-    marginVertical: 5,
+  PlanButton: {
+    marginVertical: hp('0.5%'),
     flex: 0,
-    marginHorizontal: 10,
+    marginHorizontal: wp('2.5%'),
     borderRadius: 20
-},
-  subtitulos:{
+  },
+  subtitulos: {
     textAlign: 'left',
     color: '#fff',
-    fontSize: 20,
+    fontSize: wp('5%'),
     alignSelf: 'flex-start',
-    marginBottom: 25,
-    marginTop: 30,
-    marginLeft: 15,
+    marginBottom: hp('2.5%'),
+    marginTop: hp('3%'),
+    marginLeft: wp('3.5%'),
     fontWeight: '100'
   },
-  formulariotokens:{
+  formulariotokens: {
     justifyContent: 'center',
-    marginTop: 34
+    marginTop: hp('3%')
   },
-  Cerrar:{
+  Cerrar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
-    marginHorizontal: 17
+    marginTop: hp('2%'),
+    marginHorizontal: wp('3.5%')
   },
-  ModalBlock:{
-    height: '72%',
-    width: '85%',
+  ModalBlock: {
+    height: hp('72%'),
+    width: wp('85%'),
     backgroundColor: '#212121',
     borderRadius: 29,
   },
-  ModalBack:{
+  ModalBack: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   padre: {
     flex: 1,
@@ -208,73 +213,55 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imagen: {
-    width: '50%',
-    height: '20%',
-    marginTop: '15%',
-    marginLeft: 30,
+    width: wp('50%'),
+    height: hp('20%'),
+    marginTop: hp('15%'),
+    marginLeft: wp('3.5%'),
     alignItems: 'center',
   },
   billetera: {
-    marginTop: '25%',
+    marginTop: hp('25%'),
   },
-  creditos: {
-    color: 'white',
-    paddingTop: '5%',
-    fontSize: 24,
-    paddingLeft: '10%',
-    fontWeight: 'semibold',
-  },
-  wod: {
-    width: '90%',
-    height: '10%',
-    backgroundColor: '#333333',
-    marginTop: '10%',
-    borderRadius: 15,
-  },
-  wodtext: {
-    color: '#cccccc',
-    paddingTop: '4%',
-    fontSize: 16,
-    paddingLeft: '10%',
-    fontWeight: 'semibold',
+  spacer: {
+    height: hp('10%'),
   },
   infoModal: {
-    height: '40%',
-    width: '75%',
-    backgroundColor: '#232323',
-    borderRadius: 15,
+    height: hp('40%'),
+    width: wp('70%'),
+    backgroundColor: '#212121',
+    borderRadius: 20,
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    justifyContent: 'center'
   },
   infoImage: {
-    width: 80,
-    height: 80,
-    marginBottom: 20,
+    width: wp('60%'),
+    height: hp('15%'),
+    resizeMode: 'contain',
   },
   infoText: {
-    fontSize: 18,
-    color: '#aaa',
-    marginBottom: 20,
+    fontSize: wp('4%'),
+    color: '#fff',
     textAlign: 'center',
-    fontWeight: '900'
+    marginVertical: hp('0.5%'),
   },
   closeInfoButton: {
+    marginTop: hp('3%'),
     backgroundColor: '#009BDE',
+    paddingVertical: hp('1%'),
+    paddingHorizontal: wp('5%'),
     borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
   },
   infoButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
+    fontSize: wp('4%'),
+    color: '#fff',
     textAlign: 'center',
   },
-  title: {
-    color: '#009BDE',
-    fontWeight: '500',
-    textAlignVertical: 'center',
-    fontSize: 29,
-    marginRight: 50,
+  mainImage: {
+    width: wp('100%'),
+    height: hp('100%'),
+    resizeMode: 'cover'
   },
+  iconImage:{
+    alignSelf: 'center'
+  }
 });

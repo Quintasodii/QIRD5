@@ -9,9 +9,9 @@ import CustomInput from '../components/CustomInput';
 
 
 const Register = (props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [nombreCompleto, setNombreCompleto] = useState('');
+  const [email, setEmail] = useState(' ');
+  const [password, setPassword] = useState(' ');
+  const [nombreCompleto, setNombreCompleto] = useState(' ');
   const [selectedGender, setSelectedGender] = useState(null);
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -61,18 +61,15 @@ const Register = (props) => {
 
         <CustomInput
           placeholder='Nombre Completo'
-          value={nombreCompleto}
           onChangeText={setNombreCompleto}
         />
         <CustomInput
           placeholder='Correo Electrónico'
-          value={email}
           onChangeText={setEmail}
         />
         <CustomInput
           placeholder='Contraseña'
           secureTextEntry={true}
-          value={password}
           onChangeText={setPassword}
         />
         <View style={styles.selectorgenero}>
@@ -119,7 +116,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 60,
-    fontWeight: '700',
+    fontWeight: '500',
     color: '#ffffff',
     marginBottom: 35
   },
@@ -149,7 +146,7 @@ const styles = StyleSheet.create({
   BotonTextoMF:{
     fontSize: 17,
     color: '#fff',
-    fontWeight: '800'
+    fontWeight: '400'
   },
   selectedButtonText:{
     color: '#000',

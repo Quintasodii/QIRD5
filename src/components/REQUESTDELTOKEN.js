@@ -97,8 +97,8 @@ const styles = StyleSheet.create({
     marginRight: 3
   },
   NOMBRE: {
-    fontSize: 23,
-    fontWeight: '600',
+    fontSize: 22,
+    fontWeight: '400',
     color: '#009BDE',
   },
   infoplis: {

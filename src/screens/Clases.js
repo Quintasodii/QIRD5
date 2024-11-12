@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, View, StyleSheet, Dimensions, ActivityIndicator, Alert, Modal, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, Dimensions, Alert, Modal, TouchableOpacity, SafeAreaView } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import ClaseAsset from '../components/ClaseAsset';
 import addd from '../assets/add_circle_black.png';
 import anotadoIcon from '../assets/choquecheck.png';
 
-const { width: screenWidth } = Dimensions.get('screen');
-const { height: screenHeight } = Dimensions.get('screen');
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const Clases = () => {
     const [documents, setDocuments] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [nombrer, setnombrer] = useState('');
     const [morrdalvisible, setmorrdalvisible] = useState(null);
@@ -19,13 +18,12 @@ const Clases = () => {
     const currentUser = auth().currentUser;
 
     const aberleer = (clase) =>{
-        setSelectedClass(clase)
-        setmorrdalvisible(true)
+        setSelectedClass(clase);
+        setmorrdalvisible(true);
     }
 
     useEffect(() => {
         let unsubscribe;
-        
         const fetchData = async () => {
             if (currentUser) {
                 try {
@@ -72,14 +70,6 @@ const Clases = () => {
         };
     }, []);
 
-    if (loading) {
-        return (
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#ffffff" />
-            </View>
-        );
-    }
-
     if (error) {
         Alert.alert('Error', error);
         return null;
@@ -114,12 +104,12 @@ const Clases = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>Clases</Text>
                 <View style={styles.separator} />
             </View>
-            <ScrollView>
+            <ScrollView contentContainerStyle={{ paddingBottom: screenHeight * 0.1 }}>
                 {documents.length > 0 ? (
                     documents.map(doc => {
                         const anotado = isUserAnotado(doc.anotados);
@@ -147,7 +137,7 @@ const Clases = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalText}>Clase del {selectedClass.FechaHora}</Text>
-                        <Text style={styles.modalText2}>Descripcion :</Text>
+                        <Text style={styles.modalText2}>Descripción:</Text>
                         <Text style={styles.modalText3}>{selectedClass.description}</Text>
                         <TouchableOpacity onPress={() => setmorrdalvisible(null)} style={styles.closeButton}>
                             <Text style={styles.closeButtonText}>Cerrar</Text>
@@ -155,8 +145,7 @@ const Clases = () => {
                     </View>
                 </View>
             </Modal>
-            <View style={{ height: screenHeight * 0.1 }} />
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -175,7 +164,7 @@ const styles = StyleSheet.create({
     separator: {
         alignSelf: 'center',
         backgroundColor: '#fff',
-        width: screenWidth * 0.9,
+        width: '90%',
         height: 4,
         borderRadius: 14,
     },
@@ -190,16 +179,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#0E0E0E',
         width: '100%',
         marginTop: '10%',
+        marginBottom: '5%'
     },
     title: {
         fontSize: 50,
         color: 'white',
         margin: '5%',
-    },
-    loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     noClassesText: {
         color: '#fff',
@@ -213,7 +198,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: screenWidth * 0.8,
+        width: '80%',
         padding: 20,
         backgroundColor: '#fff',
         borderRadius: 10,

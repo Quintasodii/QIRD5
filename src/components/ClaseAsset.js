@@ -7,7 +7,7 @@ import { es } from 'date-fns/locale';
 const { width: screenWidth } = Dimensions.get('screen');
 const { height: screenHeight } = Dimensions.get('screen');
 
-const ClaseAsset = ({ dateString, description, ICONOELEGIR, FUNCIONALIDAD, terreque }) => {
+const ClaseAsset = ({ dateString, ICONOELEGIR, FUNCIONALIDAD, terreque }) => {
     let eventDate;
     if (dateString) {
         try {
@@ -71,24 +71,26 @@ const styles = StyleSheet.create({
     Todo: {
         backgroundColor: '#009BDE',
         width: screenWidth * 0.87,
-        height: screenHeight * 0.1,
+        height: screenHeight * 0.11,
         borderRadius: 20,
         marginBottom: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
     },
     diadiasandia: {
-        marginLeft: 20,
+        marginLeft: 10,
         justifyContent: 'center',
         alignItems: 'center',
     },
     nochenochefantoche: {
-        fontSize: 52,
+        fontSize: screenWidth * 0.11, // Adaptable a la pantalla
         color: '#000',
         fontWeight: '500',
     },
     capitandelespacio: {
-        fontSize: 26,
+        fontSize: screenWidth * 0.06,
         color: '#000',
         marginBottom: 10,
         marginTop: -15,
@@ -97,24 +99,28 @@ const styles = StyleSheet.create({
     aquellanochelocadelosmiltequilas: {
         backgroundColor: '#007BB0',
         borderRadius: 20,
-        width: screenWidth * 0.46,
+        width: screenWidth * 0.45,
         marginTop: 20,
         marginBottom: 15,
     },
     maramarombai: {
-        fontSize: 18,
+        fontSize: screenWidth * 0.04, // Ajuste adaptativo
         color: '#fff',
         textAlign: 'center',
         fontWeight: '400',
     },
     leermas: {
+        fontSize: screenWidth*0.04,
         color: '#555',
         fontWeight: '800',
+        textAlign: 'center',
     },
     parapra: {
         justifyContent: 'center',
-        marginRight: 15,
+        alignItems: 'center', // Center icon
+        marginRight: 10,
     },
 });
+
 
 export default ClaseAsset;

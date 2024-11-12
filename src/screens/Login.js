@@ -9,8 +9,8 @@ const {width, screenWidth} = Dimensions.get('screen')
 const {height, screenHeight} = Dimensions.get('screen')
 
 export default function Login(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(' ');
+  const [password, setPassword] = useState(' ');
 
   const logueo = async () => {
     try {
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 60,
-    fontWeight: '700',
+    fontWeight: '500',
     color: '#ffffff',
   },
   tarjeta: {

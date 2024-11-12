@@ -42,14 +42,19 @@ function MyTabs() {
           setUnreadNotificationsCount(unreadCount);
         });
 
-      return () => unsubscribe(); // Limpiar la suscripción cuando el componente se desmonte
+      return () => unsubscribe(); 
     }
   }, [userId]);
 
   return (
     <Tab.Navigator screenOptions={{
       tabBarActiveBackgroundColor: '#1f1f1f',
-      tabBarInactiveBackgroundColor: '#1e1e1e'
+      tabBarInactiveBackgroundColor: '#1e1e1e',
+      tabBarStyle:{
+        height: 55,
+        borderColor: '#0e0e0e',
+        borderWidth: 0
+      }
     }}>
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false , tabBarIcon : ({focused}) => (
         <Image
@@ -100,15 +105,13 @@ function MyAdminTabs() {
   return (
     <Tab.Navigator screenOptions={{
       tabBarActiveBackgroundColor: '#1f1f1f',
-      tabBarInactiveBackgroundColor: '#1e1e1e'
+      tabBarInactiveBackgroundColor: '#1e1e1e',
+      tabBarStyle:{
+        height: 55,
+        borderColor: '#0e0e0e',
+        borderWidth: 0
+      }
     }}>
-      <Tab.Screen name="Home" component={Home} options={{ headerShown: false , tabBarIcon : ({focused}) => (
-        <Image
-          source={focused ? require('./src/assets/homeblu.png') : require('./src/assets/homewhite.png')}
-          style={{width: 34, height: 34}}
-          resizeMode='contain'
-        />
-      )}} />
       <Tab.Screen name='TokensRequest' component={Tokenrequest} options={{headerShown: false , tabBarIcon : ({focused}) => (
         <Image
           source={focused ? require('./src/assets/tokenadd_blue.png') : require('./src/assets/tokenadd_white.png')}
@@ -123,9 +126,9 @@ function MyAdminTabs() {
           resizeMode='contain'
         />
       )}} />
-      <Tab.Screen name="Clase" component={Clases} options={{ headerShown: false , tabBarIcon : ({focused}) => (
+      <Tab.Screen name='AddNotif' component={AddNotif} options={{headerShown: false , tabBarIcon : ({focused}) => (
         <Image
-          source={focused ? require('./src/assets/dumbbell_blu.png') : require('./src/assets/dumbbell_white.png')}
+          source={focused ? require('./src/assets/subir2.png') : require('./src/assets/subir1.png')}
           style={{width: 34, height: 34}}
           resizeMode='contain'
         />
@@ -137,7 +140,7 @@ function MyAdminTabs() {
           resizeMode='contain'
         />
       )}} />
-      <Tab.Screen name='AddNotif' component={AddNotif} options={{headerShown: false}} />
+      
     </Tab.Navigator>
   );
 }

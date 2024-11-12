@@ -67,7 +67,7 @@ const NotificationsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#0e0e0e',
     paddingHorizontal: 20,
     paddingVertical: 20,
   },

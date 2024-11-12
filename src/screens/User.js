@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet, View, ActivityIndicator, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { Text, StyleSheet, View, ActivityIndicator, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { ScrollView } from 'react-native-gesture-handler';
 import kakaka from '../assets/PERFILAO.png';
 
-const {width :  screenWidth} = Dimensions.get('screen')
-const {height :  screenHeight} = Dimensions.get('screen')
+const { width: screenWidth } = Dimensions.get('screen');
+const { height: screenHeight } = Dimensions.get('screen');
 
 export default function User(props) {
   const [uid, setUid] = useState(null);
@@ -46,7 +45,7 @@ export default function User(props) {
           setTokens(TokenHistorico);
         })
         .catch(error => {
-          console.log('No se pudo traer el historicon', error);
+          console.log('No se pudo traer el historico', error);
         });
     } else {
       console.log('No existe tal usuario entre nos');
@@ -66,80 +65,81 @@ export default function User(props) {
   };
 
   return (
-    <View style={styles.padre}>
-      <View style={styles.container}>
-        <View style={styles.ImagenPerfil}>
-          <Image source={kakaka}/>
-        </View>
-        {userData ? (
-          <View style={styles.NombreGenero}>
-            <Text style={styles.NOMBREE}>{userData.nombreCompleto}</Text>
-            <Text style={styles.GENEROO}>{userData.gender}</Text>
+    <ScrollView style={{backgroundColor: '#0e0e0e'}}>
+      <View style={styles.padre}>
+        <View style={styles.container}>
+          <View style={styles.ImagenPerfil}>
+            <Image source={kakaka} />
           </View>
-        ) : (
-          <ActivityIndicator color='#fcf' />
-        )}
-      </View>
-      <View style={styles.COREOS}>
-      <Text style={styles.COREOTXT}>
-        Correo electronico: 
-      </Text>
-      {userData ? (
-          <Text style={styles.ERMAIL}>{userData.email}</Text>
-        ) : (
-          <ActivityIndicator color='#fff' />
-        )}
-      </View>
-      <View style={styles.COREOS}>
-      <Text style={styles.COREOTXT}>
-        Telefono: 
-      </Text>
-      {userData ? (
-          <Text style={styles.ERMAIL}>{userData.TEL}</Text>
-        ) : (
-          <ActivityIndicator color='#ffg' />
-        )}
-      </View>
-
-      <View style={styles.separador}/>
- 
-      <View style={styles.Registros}>
-        <Text style={styles.REGISTROTITU}>Registro de Compra</Text>
-        <ScrollView>
-          {tokens.length > 0 ? (
-            tokens.map(token => (
-              <View key={token.id}>
-                <TouchableOpacity >
-                  <Text style={styles.Registermodules}>{token.Fecha}</Text> 
-                </TouchableOpacity>
-              </View>
-            ))
-          ) : (
-            <View>
-              <Text style={{ color: '#009BDE' }}>No hay registro de tokens</Text>
+          {userData ? (
+            <View style={styles.NombreGenero}>
+              <Text style={styles.NOMBREE}>{userData.nombreCompleto}</Text>
+              <Text style={styles.GENEROO}>{userData.gender}</Text>
             </View>
+          ) : (
+            <ActivityIndicator color='#fcf' />
           )}
-        </ScrollView>
-        <View style={styles.separador}/>
+        </View>
+        <View style={styles.COREOS}>
+          <Text style={styles.COREOTXT}>Correo electrónico: </Text>
+          {userData ? (
+            <Text style={styles.ERMAIL}>{userData.email}</Text>
+          ) : (
+            <ActivityIndicator color='#fff' />
+          )}
+        </View>
+        <View style={styles.COREOS}>
+          <Text style={styles.COREOTXT}>Teléfono: </Text>
+          {userData ? (
+            <Text style={styles.ERMAIL}>{userData.TEL}</Text>
+          ) : (
+            <ActivityIndicator color='#ffg' />
+          )}
+        </View>
+
+        <View style={styles.separador} />
+
+        <View style={styles.Registros}>
+          <Text style={styles.REGISTROTITU}>Registro de Compra</Text>
+          <ScrollView>
+            {tokens.length > 0 ? (
+              tokens.map(token => (
+                <View key={token.id}>
+                  <TouchableOpacity>
+                    <Text style={styles.Registermodules}>{token.Fecha}</Text>
+                  </TouchableOpacity>
+                </View>
+              ))
+            ) : (
+              <View>
+                <Text style={{ color: '#009BDE' }}>No hay registro de tokens</Text>
+              </View>
+            )}
+          </ScrollView>
+          <View style={styles.separador} />
+        </View>
+        <View style={styles.conflogut}>
+          <TouchableOpacity onPress={handleLogout}>
+            <Text style={styles.logout}>Cerrar Sesión</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.conflogut}>
-          <TouchableOpacity onPress={handleLogout}><Text style={styles.logout}>Cerrar Sesion</Text></TouchableOpacity>
-      </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  ImagenPerfil:{
+  ImagenPerfil: {
     marginLeft: 10
   },
   padre: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#0e0e0e',
+    paddingBottom: 80, // Ajuste para evitar que el contenido sea tapado
   },
   container: {
     height: '15%',
-    backgroundColor: '#000',
+    backgroundColor: '#0e0e0e',
     width: '100%',
     marginTop: '10%',
     flexDirection: 'row',
@@ -153,32 +153,32 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: 'right'
   },
-  GENEROO:{
-    fontSize:24,
+  GENEROO: {
+    fontSize: 24,
     color: 'white',
     textAlign: 'right',
     marginRight: 15,
     marginTop: 5,
   },
-  CorreoTelefono:{
-    backgroundColor: '#000',
+  CorreoTelefono: {
+    backgroundColor: '#0e0e0e',
     height: 80
   },
-  COREOS:{
+  COREOS: {
     justifyContent: 'space-between',
     flexDirection: 'row',
     marginHorizontal: 20,
     marginTop: 30
   },
-  ERMAIL:{
+  ERMAIL: {
     fontSize: 18,
     textAlign: 'right',
-    color:'#fff'
+    color: '#fff'
   },
-  COREOTXT:{
+  COREOTXT: {
     fontSize: 18,
     textAlign: 'left',
-    color:'#fff',
+    color: '#fff',
   },
   separador: {
     marginTop: 30,
@@ -187,31 +187,30 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.8,
     height: 2,
     borderRadius: 14,
-},
-Registros:{
-  backgroundColor: '#000',
-  alignItems:'center',
-  height: 370
-},
-REGISTROTITU:{
-  fontSize: 30,
-  color: '#fff',
-  marginTop: 14,
-  marginBottom: 27
-},
-Registermodules:{
-  color: '#009BDE',
-  fontSize: 20,
-  borderBottomWidth: 1,
-  borderBottomColor: '#009BDE'
-},
-logout:{
-  color: '#821',
-  fontSize: 20,
-  marginTop:40
-},
-conflogut:{
-  alignItems: 'center'
-}
-
+  },
+  Registros: {
+    backgroundColor: '#0e0e0e',
+    alignItems: 'center',
+    height: 370
+  },
+  REGISTROTITU: {
+    fontSize: 30,
+    color: '#fff',
+    marginTop: 14,
+    marginBottom: 27
+  },
+  Registermodules: {
+    color: '#009BDE',
+    fontSize: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#009BDE'
+  },
+  logout: {
+    color: '#821',
+    fontSize: 20,
+    marginTop: 40
+  },
+  conflogut: {
+    alignItems: 'center'
+  }
 });
