@@ -49,9 +49,6 @@ export default function Home() {
         <Creditos anashe={goanashe} />
       </View>
       <View style={styles.spacer}></View>
-      <View style={styles.imagen}>
-        <Image source={myImage} style={styles.mainImage} />
-      </View>
 
       {/* Primer Modal */}
       <Modal transparent={true} visible={modalVisibilityShesh} animationType="fade">
@@ -220,7 +217,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   billetera: {
-    marginTop: hp('25%'),
+    marginTop: hp('13%'),
   },
   spacer: {
     height: hp('10%'),

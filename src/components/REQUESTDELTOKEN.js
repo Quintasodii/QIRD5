@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   METODO: {
     color: '#fff',
     fontSize: 15,
-    marginRight: 3
+    marginRight: 1
   },
   NOMBRE: {
     fontSize: 22,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   infoplis: {
     flexDirection: 'row',
-    marginLeft: 5
+    marginLeft: 0
   },
   container: {
     width: '88%',
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   identificador: {
-    width: '59%',
+    width: '60%',
     justifyContent: 'center',
     alignSelf: 'center',
     margin: 5,

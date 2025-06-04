@@ -78,11 +78,30 @@ const AddClases = () => {
         setSelectedDateTime(`${formattedDate} ${hour}`);
     };
 
-    const BORRARCLASES = (doc) => {
-        firestore()
-            .collection('Clases')
-            .doc(doc.id)
-            .delete();
+    const BORRARCLASES = async (doc) => {
+        const claseRef = firestore().collection('Clases').doc(doc.id);
+        try{
+            const claseSnapshot = await claseRef.get();
+            const claseData = claseSnapshot.data();
+
+            if(!claseData?.anotados){
+                console.log('No Hay Anotaos');
+                return;
+            }
+
+            const batch = firestore().batch()
+            claseData.anotados.forEach((usuario)=>{
+                const userRef = firestore().collection('Users').doc(usuario.userid);
+                batch.update(userRef, {
+                    Creditos: firestore.FieldValue.increment(1)
+                })
+            })
+            await batch.commit();
+            await claseRef.delete();
+            console.log('Clase elimindad y creditos devueltos')
+        }catch(error){
+            console.log('NO SE BORRO O NO SUMO CREDITOS REVISA TODO')
+        }
     };
 
     return (

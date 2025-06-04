@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View, StyleSheet, Dimensions, Alert, Modal, TouchableOpacity, SafeAreaView } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
+import firestore, { FieldValue } from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import ClaseAsset from '../components/ClaseAsset';
 import addd from '../assets/add_circle_black.png';
@@ -74,7 +74,26 @@ const Clases = () => {
         Alert.alert('Error', error);
         return null;
     }
-
+    const desanotarse = async (doc) => {
+        const docref = firestore().collection('Clases').doc(doc.id)
+        const userRef = firestore().collection('Users').doc(currentUser.uid);
+        try{
+        const userSnapshot = await userRef.get();
+        const userCredits = userSnapshot.data()?.Creditos;
+        await docref.update({
+            anotados: firestore.FieldValue.arrayRemove({
+                estado: 'NO TOMADO',
+                name: userSnapshot.data().nombreCompleto,
+                userid: currentUser.uid
+            })
+        })
+        await userRef.update({
+            Creditos: userCredits + 1
+        });
+        }catch(error){
+            console.log(error, 'ERROR')
+        }
+    }
     const AnotarseAClase = async (doc) => {
         try {
             const userRef = firestore().collection('Users').doc(currentUser.uid);
@@ -118,7 +137,7 @@ const Clases = () => {
                                 key={doc.id}
                                 dateString={doc.FechaHora}
                                 ICONOELEGIR={anotado ? anotadoIcon : addd}
-                                FUNCIONALIDAD={() => !anotado && AnotarseAClase(doc)}
+                                FUNCIONALIDAD={() => !anotado && AnotarseAClase(doc) || desanotarse(doc)}
                                 anotado={anotado}
                                 terreque={() => aberleer(doc)}
                             />
